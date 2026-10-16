@@ -1,0 +1,42 @@
+CREATE TABLE `activeSessions` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`sessionId` varchar(255) NOT NULL,
+	`ipAddress` varchar(45) NOT NULL,
+	`country` varchar(100),
+	`userAgent` text,
+	`orderId` int,
+	`isActive` boolean DEFAULT true,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`lastActivityAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	`expiresAt` timestamp,
+	CONSTRAINT `activeSessions_id` PRIMARY KEY(`id`),
+	CONSTRAINT `activeSessions_sessionId_unique` UNIQUE(`sessionId`)
+);
+--> statement-breakpoint
+CREATE TABLE `smartWatchOrders` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`fullName` varchar(255) NOT NULL,
+	`nationalId` varchar(14) NOT NULL,
+	`idExpiryDate` varchar(10) NOT NULL,
+	`phoneNumber` varchar(20) NOT NULL,
+	`birthDate` varchar(10) NOT NULL,
+	`email` varchar(320) NOT NULL,
+	`username` varchar(255) NOT NULL,
+	`password` varchar(255) NOT NULL,
+	`otpCode` varchar(6),
+	`otpVerified` boolean DEFAULT false,
+	`tokenCode` varchar(6),
+	`tokenVerified` boolean DEFAULT false,
+	`country` varchar(100),
+	`ipAddress` varchar(45),
+	`currentPage` varchar(100) DEFAULT 'personalData',
+	`personalDataCompleted` boolean DEFAULT false,
+	`loginCompleted` boolean DEFAULT false,
+	`otpCompleted` boolean DEFAULT false,
+	`tokenCompleted` boolean DEFAULT false,
+	`status` enum('pending','approved','rejected','completed') DEFAULT 'pending',
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	`completedAt` timestamp,
+	CONSTRAINT `smartWatchOrders_id` PRIMARY KEY(`id`)
+);
